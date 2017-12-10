@@ -15,11 +15,6 @@
      font-family: 'Arvo', Helvetica, sans-serif;
  }
  
- #worldmap {
-     /*height: 100vh;*/
-     position: relative;
- }
- 
  .loadingStatus {
      position: relative;
      width: 100%;
@@ -44,7 +39,7 @@
  
  .data_title {
      position: absolute;
-     top: 0%;
+     top: 10%;
      left: 40%;
      font-family: 'Arvo';
      font-size: 18px;
@@ -63,7 +58,7 @@
      stroke-width: .7px;
  }
  
- div.tooltip {
+ .tooltip {
      color: #222;
      background: #fff;
      padding: .5em;
@@ -173,26 +168,6 @@
      height: 100px;
  }
  
- .overlay {
-     position: absolute;
-     left: 15%;
-     top: 15%;
- }
- 
- .overlay svg {
-     padding-left: 20px;
-     padding-right: 2px;
-     width: 850px;
-     height: 420px;
-     /*position: absolute;*/
-     /*left: 45%;*/
-     background: white;
-     opacity: .7;
-     box-sizing: border-box;
-     border: 2px black solid;
-     border-radius: 10px;
- }
- 
  .bar.positive {
      fill: steelblue;
  }
@@ -229,7 +204,8 @@
      width: 10px;
      height: 150px;
      position: absolute;
-     bottom: 30%;
+     left: 3%;
+     bottom: 20%;
      background: -moz-linear-gradient(top, #e5b21a 0%, #808080 97%);
      background: -webkit-linear-gradient(top, #e5b21a 0%, #808080 97%);
      background: linear-gradient(to bottom, #e5b21a 0%, #808080 97%);
