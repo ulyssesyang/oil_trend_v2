@@ -24,10 +24,10 @@ export const height = $(window).height() - $(".navbar.navbar-default").height() 
 
 //offsets plus width/height of transform
 export const offsetL = document
-    .getElementById("worldmap")
+    .getElementById("mapcontainer")
     .offsetLeft + (width / 2.75);
 export const offsetT = document
-    .getElementById("worldmap")
+    .getElementById("mapcontainer")
     .offsetTop + (height / 2);
 
 /**
@@ -60,3 +60,10 @@ export function getLatLong(callback) {
             }
         });
 }
+
+export const margin_linechart = {
+    top: 30,
+    right: 20,
+    bottom: 30,
+    left: 50
+};

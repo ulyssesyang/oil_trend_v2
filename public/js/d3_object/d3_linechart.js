@@ -1,5 +1,5 @@
 import {g, svg, geo_path, tooltip} from './d3_init.js';
-import {width, height, offsetL, offsetT, getTopo} from '../data_service/data_prepare.js';
+import {margin_linechart} from '../data_service/data_prepare.js';
 import {fetchDataByName} from '../data_service/data_fetch.js';
 
 export function renderLineChart(data) {

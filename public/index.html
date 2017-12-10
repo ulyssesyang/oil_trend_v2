@@ -75,40 +75,34 @@
 
     <!-- Map -->
     <div id="container">
+        <div class="col-md-10" id="mapcontainer">
+        </div>
 
-        <div id="worldmap">
+        <div class="col-md-2" id="key">
+            <h3>Top Countries</h3>
+            <p>(Thousand Barrels/Day)
+                <p>
+                    <ul class="top_countries">
+                    </ul>
+        </div>
 
-            <div class="col-md-10" id="mapcontainer">
+        <div class="dropdown">
+            <select id="dropdown">
+                <option value="" >Year List</option>
+            </select>
+        </div>
 
-                <div class="dropdown">
-                    <select id="dropdown">
-            <option value="" >Year List</option>
-          </select>
-                </div>
+        <div class="data_title">
+            <p id="data_title"></p>
+        </div>
 
-                <div class="data_title">
-                    <p id="data_title"></p>
-                </div>
-
-                <div id="gradientbox">
-                    <p id="gradientlabeltop">
-                        maximum
-                    </p>
-                    <p id="gradientlabelbottom">
-                        minimum
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-md-2" id="key">
-                <h3>Top Countries</h3>
-                <p>(Thousand Barrels/Day)
-                    <p>
-                        <ul class="top_countries">
-                        </ul>
-            </div>
-
-            <div class="overlay"></div>
+        <div id="gradientbox">
+            <p id="gradientlabeltop">
+                maximum
+            </p>
+            <p id="gradientlabelbottom">
+                minimum
+            </p>
         </div>
     </div>
     <!-- end div container -->
