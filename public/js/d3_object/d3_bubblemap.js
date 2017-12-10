@@ -1,8 +1,8 @@
-import {projection, circles} from './d3_object/d3_init.js';
+import {projection, circles} from './d3_init.js';
 import {getLatLong} from '../data_service/data_prepare.js';
 
 // Render Bubble Map Function
-export function renderBubble(countries_arr, callback) {
+export default function renderBubble(countries_arr, callback) {
     getLatLong(function (LatLong) {
         let scalefactor = 1 / 10;
         circles

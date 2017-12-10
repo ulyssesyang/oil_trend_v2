@@ -4,16 +4,9 @@
  * @param  {function} callback - callback function returning err and query result
  */
 function ajaxGetFn(q_url, callback) {
-    $.ajax({
-        url: q_url,
-        data: {
-            format: 'json'
-        },
-        error: (err) => callback(err, null),
-        dataType: 'jsonp',
-        success: (data) => callback(null, data),
-        type: 'GET'
-    });
+    $
+        .ajax({url: q_url, method: "GET", dataType: "json"})
+        .done((data) => callback(data));
 }
 
 /**
@@ -25,9 +18,9 @@ function ajaxGetFn(q_url, callback) {
 export function fetchDataByName(country_name, data_selection, callback) {
 
     let q_url = `/countries/${country_name}?selection=${data_selection}`;
-    ajaxGetFn(q_url, function (err, data) {
+    ajaxGetFn(q_url, function (data) {
         if (callback && typeof callback === "function") {
-            callback(err, data);
+            callback(data);
         }
     });
 }
@@ -46,9 +39,9 @@ export function fetchDataByYear(year_selection, data_selection, callback) {
     }
 
     let q_url = `/${year_selection}?selection=${data_selection}`;
-    ajaxGetFn(q_url, function (err, data) {
+    ajaxGetFn(q_url, function (data) {
         if (callback && typeof callback === "function") {
-            callback(err, data);
+            callback(data);
         }
     });
 }
