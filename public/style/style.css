@@ -229,9 +229,7 @@
      width: 10px;
      height: 150px;
      position: absolute;
-     bottom: 20%;
-     /*left: 10%;*/
-     background: #e5b21a;
+     bottom: 30%;
      background: -moz-linear-gradient(top, #e5b21a 0%, #808080 97%);
      background: -webkit-linear-gradient(top, #e5b21a 0%, #808080 97%);
      background: linear-gradient(to bottom, #e5b21a 0%, #808080 97%);
@@ -243,35 +241,25 @@
  #gradientlabelbottom {
      color: black;
      font-size: 14px;
-     /*position: relative;*/
- }
- 
- #gradientlabeltop {
      position: absolute;
-     top: 55%;
-     left: 3%;
+     width: 20px
  }
  
  #gradientlabelbottom {
-     position: absolute;
-     top: 80%;
-     left: 3%;
+     top: 90%;
      line-height: 90%;
  }
  
  @media (min-width: 1600px) {
      #gradientbox {
-         top: 80%;
+         top: 70%;
      }
      #gradientlabeltop {
          position: absolute;
-         top: 80%;
-         left: 3%;
      }
      #gradientlabelbottom {
          position: absolute;
-         top: 91%;
-         left: 3%;
+         top: 90%;
          line-height: 90%;
      }
  }

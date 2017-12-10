@@ -1,13 +1,9 @@
-var renderLineChart = function (data) {
+import {g, svg, geo_path, tooltip} from './d3_init.js';
+import {width, height, offsetL, offsetT, getTopo} from '../data_service/data_prepare.js';
+import {fetchDataByName} from '../data_service/data_fetch.js';
 
-    console.log('renderLineChart');
-
-    var tooltip = d3
-        .select("body")
-        .append("div")
-        .attr('class', 'line-tooltip');
-
-    var margin = {
+export function renderLineChart(data) {
+    let margin = {
             top: 30,
             right: 20,
             bottom: 30,
@@ -17,17 +13,17 @@ var renderLineChart = function (data) {
         height = 200 - margin.top - margin.bottom;
 
     // Set the ranges
-    var x = d3
+    let x = d3
         .scale
         .linear()
         .range([0, width]);
-    var y = d3
+    let y = d3
         .scale
         .linear()
         .range([height, 0]);
 
     // Define the axes
-    var xAxis = d3
+    let xAxis = d3
         .svg
         .axis()
         .scale(x)
@@ -35,7 +31,7 @@ var renderLineChart = function (data) {
         .ticks(15)
         .tickFormat(d3.format("d"));
 
-    var yAxis = d3
+    let yAxis = d3
         .svg
         .axis()
         .scale(y)
@@ -43,7 +39,7 @@ var renderLineChart = function (data) {
         .ticks(10);
 
     // Define the line
-    var valueline = d3
+    let valueline = d3
         .svg
         .line()
         .x(function (d) {
@@ -54,7 +50,7 @@ var renderLineChart = function (data) {
             return y(d.value);
         });
 
-    var svg = d3
+    let svg = d3
         .select("#mapcontainer")
         .append("svg")
         .attr('id', 'draggable')
@@ -68,88 +64,87 @@ var renderLineChart = function (data) {
 
     // chart remove whenever mouse click outside
     $(document).on('click', function (e) {
-        var container = $("#draggable");
-
-        if (!container.is(e.target) // if the target of the click isn't the container... && container.has(e.target).length === 0) { // ... nor a descendant of the container
-        container.remove();
-    }
-});
-
-// Scale the range of the data
-x.domain(d3.extent(data, function (d) {
-    return (newDate(d.year)).getFullYear();
-}));
-y.domain([
-    0,
-    d3.max(data, function (d) {
-        return
-        d.value;
-    })
-]);
-
-// Add the valueline path.
-svg
-    .append("path")
-    .attr("class", "line")
-    .attr("d", valueline(data));
-
-// Add the X Axis
-svg
-    .append("g")
-    .datum(data)
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis)
-    .append("text")
-    .style("text-anchor", "start")
-    .attr("y", 30) //this is the Year x axis label and this moves it up and down
-    .attr("dx", "20em") //year axis label that moves it left to right
-    .text("Year");
-svg
-    .append("text")
-    .attr("x", (width / 2))
-    .attr("y", 0 - (margin.top / 5))
-    .attr("text-anchor", "middle")
-    .style("font-size", "14px")
-    .text(data[0].name + ": Historical Trends");
-
-// Add the Y Axis
-svg
-    .append("g")
-    .attr("class", "y axis")
-    .call(yAxis)
-    .append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("y", 6) //up and down of label
-    .attr("dy", ".71em") //left to right of label
-    .style("text-anchor", "end") //anchors to a certain point
-    .text("Thousand Barrels Per Day");
-svg.selectAll("dot") // grabs all the circles on line chart
-    .data(data) // associates the range of data to the group of elements
-    .enter()
-    .append("circle") // adds a circle for each data point
-    .attr("r", 3)
-    .attr("cx", function (d) {
-        return
-        x((newDate(d.year)).getFullYear());
-    }) // at an appropriate x coordinate
-    .attr("cy", function (d) {
-        return
-        y(d.value);
-    }) // and an appropriate y coordinate
-    .on("mouseover", function (d) {
-        var year = (newDate(d.year)).getFullYear();
-        tooltip.html('Year: ' + year + '<br>Value: ' + d.value);
-        return
-        tooltip.style("visibility", "visible");
-    })
-    .on("mousemove", function () {
-        return
-        tooltip.style("top", (event.pageY - 10) + "px").style("left", (event.pageX + 10) + "px");
-    })
-    .on("mouseout", function () {
-        return
-        tooltip.style("visibility", "hidden");
+        // if the target of the click isn't the container
+        if (!$("#draggable").is(e.target)) {
+            container.remove();
+        }
     });
+
+    // Scale the range of the data
+    x.domain(d3.extent(data, function (d) {
+        return (newDate(d.year)).getFullYear();
+    }));
+    y.domain([
+        0,
+        d3.max(data, function (d) {
+            return
+            d.value;
+        })
+    ]);
+
+    // Add the valueline path.
+    svg
+        .append("path")
+        .attr("class", "line")
+        .attr("d", valueline(data));
+
+    // Add the X Axis
+    svg
+        .append("g")
+        .datum(data)
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+        .append("text")
+        .style("text-anchor", "start")
+        .attr("y", 30) //this is the Year x axis label and this moves it up and down
+        .attr("dx", "20em") //year axis label that moves it left to right
+        .text("Year");
+    svg
+        .append("text")
+        .attr("x", (width / 2))
+        .attr("y", 0 - (margin.top / 5))
+        .attr("text-anchor", "middle")
+        .style("font-size", "14px")
+        .text(data[0].name + ": Historical Trends");
+
+    // Add the Y Axis
+    svg
+        .append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6) //up and down of label
+        .attr("dy", ".71em") //left to right of label
+        .style("text-anchor", "end") //anchors to a certain point
+        .text("Thousand Barrels Per Day");
+    svg.selectAll("dot") // grabs all the circles on line chart
+        .data(data) // associates the range of data to the group of elements
+        .enter()
+        .append("circle") // adds a circle for each data point
+        .attr("r", 3)
+        .attr("cx", function (d) {
+            return
+            x((newDate(d.year)).getFullYear());
+        }) // at an appropriate x coordinate
+        .attr("cy", function (d) {
+            return
+            y(d.value);
+        }) // and an appropriate y coordinate
+        .on("mouseover", function (d) {
+            let year = (newDate(d.year)).getFullYear();
+            tooltip.html('Year: ' + year + '<br>Value: ' + d.value);
+            return
+            tooltip.style("visibility", "visible");
+        })
+        .on("mousemove", function () {
+            return
+            tooltip.style("top", (event.pageY - 10) + "px").style("left", (event.pageX + 10) + "px");
+        })
+        .on("mouseout", function () {
+            return
+            tooltip.style("visibility", "hidden");
+        });
 
 };
