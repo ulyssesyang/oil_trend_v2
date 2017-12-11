@@ -1,84 +1,41 @@
-import {margin_setting_chart as margin, width_chart as width, height_chart as height} from '../data_service/data_prepare.js';
-import {fetchDataByName} from '../data_service/data_fetch.js';
-import {graph_countries, map_container, tooltip} from './d3_init.js';
+import { margin_setting_chart as margin, width_chart as width, height_chart as height, tooltip } from '../data_service/data_prepare.js';
+import { fetchDataByName } from '../data_service/data_fetch.js';
+import { x, y, xAxis, yAxis, valueline } from './d3_init_linechart.js';
+import ui_draggable from '../ui_menu/ui_draggable.js';
 
-export default function renderLineChart(data) {
-    // Set the ranges
-    let x = d3
-        .scale
-        .linear()
-        .range([0, width]);
-    let y = d3
-        .scale
-        .linear()
-        .range([height, 0]);
+export default function renderLineChart(data, callback) {
 
-    // Define the axes
-    let xAxis = d3
-        .svg
-        .axis()
-        .scale(x)
-        .orient("bottom")
-        .ticks(15)
-        .tickFormat(d3.format("d"));
-
-    let yAxis = d3
-        .svg
-        .axis()
-        .scale(y)
-        .orient("left")
-        .ticks(10);
-
-    // Define the line
-    let valueline = d3
-        .svg
-        .line()
-        .x(function (d) {
-            return x((new Date(d.year)).getFullYear());
-        })
-        .y(function (d) {
-            return y(d.value);
-        });
-
-    let svg = d3
+    let linechart = d3
         .select("#mapcontainer")
         .append("svg")
-        .attr('id', 'draggable')
+        .attr('id', 'linechart')
         .attr('class', 'draggable ui-widget-content')
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    $('.draggable').draggable();
-
-    // chart remove whenever mouse click outside
-    $(document).on('click', function (e) {
-        // if the target of the click isn't the draggable div
-        if (!$("#draggable").is(e.target)) {
-            $("#draggable").remove();
-        }
-    });
+    ui_draggable("#linechart");
 
     // Scale the range of the data
-    x.domain(d3.extent(data, function (d) {
+    x.domain(d3.extent(data, function(d) {
         return (new Date(d.year)).getFullYear();
     }));
     y.domain([
         0,
-        d3.max(data, function (d) {
+        d3.max(data, function(d) {
             return d.value;
         })
     ]);
 
     // Add the valueline path.
-    svg
+    linechart
         .append("path")
         .attr("class", "line")
         .attr("d", valueline(data));
 
     // Add the X Axis
-    svg
+    linechart
         .append("g")
         .datum(data)
         .attr("class", "x axis")
@@ -89,7 +46,7 @@ export default function renderLineChart(data) {
         .attr("y", 30) //this is the Year x axis label and this moves it up and down
         .attr("dx", "20em") //year axis label that moves it left to right
         .text("Year");
-    svg
+    linechart
         .append("text")
         .attr("x", (width / 2))
         .attr("y", 0 - (margin.top / 5))
@@ -98,7 +55,7 @@ export default function renderLineChart(data) {
         .text(data[0].name + ": Historical Trends");
 
     // Add the Y Axis
-    svg
+    linechart
         .append("g")
         .attr("class", "y axis")
         .call(yAxis)
@@ -109,7 +66,7 @@ export default function renderLineChart(data) {
         .style("text-anchor", "end") //anchors to a certain point
         .text("Thousand Barrels Per Day");
 
-    svg
+    linechart
         .append("g")
         .attr("class", "dot")
         .selectAll("dot") // grabs all the circles on line chart
@@ -117,24 +74,27 @@ export default function renderLineChart(data) {
         .enter()
         .append("circle") // adds a circle for each data point
         .attr("r", 3)
-        .attr("cx", function (d) {
+        .attr("cx", function(d) {
             return x((new Date(d.year)).getFullYear());
         }) // at an appropriate x coordinate
-        .attr("cy", function (d) {
+        .attr("cy", function(d) {
             return y(d.value);
         }) // and an appropriate y coordinate
-        .on("mouseover", function (d) {
+        .on("mouseover", function(d) {
             let year = (new Date(d.year)).getFullYear();
             tooltip
                 .classed("hidden", false)
                 .html('Year: ' + year + '<br>Value: ' + d.value);
             return tooltip.style("visibility", "visible");
         })
-        .on("mousemove", function () {
+        .on("mousemove", function() {
             return tooltip.style("top", (event.pageY - 10) + "px").style("left", (event.pageX + 10) + "px");
         })
-        .on("mouseout", function () {
+        .on("mouseout", function() {
             return tooltip.style("visibility", "hidden");
         });
 
-};
+    if (callback && typeof callback === "function") {
+        callback(true);
+    }
+}

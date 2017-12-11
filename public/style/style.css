@@ -95,13 +95,7 @@
      text-align: center;
  }
  
- .countryGraph {
-     background: white;
-     float: left;
-     z-index: 40;
- }
- 
- .draggable {
+ #linechart {
      position: absolute;
      width: 530px;
      height: 220px;
@@ -111,20 +105,6 @@
      border: 2px solid #ccc;
      margin: 10px;
      top: 50%;
- }
- 
- .line-tooltip {
-     position: absolute;
-     background: white;
-     padding: 7px;
-     z-index: 10;
-     visibility: hidden;
-     box-sizing: border-box;
-     border: black solid 1px;
- }
- 
- .chart-container {
-     position: relative;
  }
  
  .axis {

@@ -62,3 +62,13 @@ export const margin_setting_chart = {
 };
 export const width_chart = 500 - margin_setting_chart.left - margin_setting_chart.right;
 export const height_chart = 200 - margin_setting_chart.top - margin_setting_chart.bottom;
+
+/**
+ * @function tooltip
+ * @param  {type} export const tooltip {description}
+ * @return {type} {description}
+ */
+export const tooltip = d3
+    .select("#container")
+    .append("div")
+    .attr("class", "tooltip hidden");

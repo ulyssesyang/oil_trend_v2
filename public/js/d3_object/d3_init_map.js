@@ -48,13 +48,3 @@ export const geo_path = d3
 export const circles = map_container
     .append("svg:g")
     .attr("id", "circles");
-
-/**
- * @function tooltip
- * @param  {type} export const tooltip {description}
- * @return {type} {description}
- */
-export const tooltip = d3
-    .select("#container")
-    .append("div")
-    .attr("class", "tooltip hidden");
