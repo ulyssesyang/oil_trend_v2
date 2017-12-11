@@ -1,17 +1,8 @@
-import {g, svg, geo_path, tooltip} from './d3_init.js';
-import {margin_linechart} from '../data_service/data_prepare.js';
+import {margin_setting_chart as margin, width_chart as width, height_chart as height} from '../data_service/data_prepare.js';
 import {fetchDataByName} from '../data_service/data_fetch.js';
+import {graph_countries, map_container, tooltip} from './d3_init.js';
 
-export function renderLineChart(data) {
-    let margin = {
-            top: 30,
-            right: 20,
-            bottom: 30,
-            left: 50
-        },
-        width = 500 - margin.left - margin.right,
-        height = 200 - margin.top - margin.bottom;
-
+export default function renderLineChart(data) {
     // Set the ranges
     let x = d3
         .scale
@@ -43,7 +34,6 @@ export function renderLineChart(data) {
         .svg
         .line()
         .x(function (d) {
-            // debugger
             return x((new Date(d.year)).getFullYear());
         })
         .y(function (d) {
@@ -64,21 +54,20 @@ export function renderLineChart(data) {
 
     // chart remove whenever mouse click outside
     $(document).on('click', function (e) {
-        // if the target of the click isn't the container
+        // if the target of the click isn't the draggable div
         if (!$("#draggable").is(e.target)) {
-            container.remove();
+            $("#draggable").remove();
         }
     });
 
     // Scale the range of the data
     x.domain(d3.extent(data, function (d) {
-        return (newDate(d.year)).getFullYear();
+        return (new Date(d.year)).getFullYear();
     }));
     y.domain([
         0,
         d3.max(data, function (d) {
-            return
-            d.value;
+            return d.value;
         })
     ]);
 
@@ -119,32 +108,33 @@ export function renderLineChart(data) {
         .attr("dy", ".71em") //left to right of label
         .style("text-anchor", "end") //anchors to a certain point
         .text("Thousand Barrels Per Day");
-    svg.selectAll("dot") // grabs all the circles on line chart
+
+    svg
+        .append("g")
+        .attr("class", "dot")
+        .selectAll("dot") // grabs all the circles on line chart
         .data(data) // associates the range of data to the group of elements
         .enter()
         .append("circle") // adds a circle for each data point
         .attr("r", 3)
         .attr("cx", function (d) {
-            return
-            x((newDate(d.year)).getFullYear());
+            return x((new Date(d.year)).getFullYear());
         }) // at an appropriate x coordinate
         .attr("cy", function (d) {
-            return
-            y(d.value);
+            return y(d.value);
         }) // and an appropriate y coordinate
         .on("mouseover", function (d) {
-            let year = (newDate(d.year)).getFullYear();
-            tooltip.html('Year: ' + year + '<br>Value: ' + d.value);
-            return
-            tooltip.style("visibility", "visible");
+            let year = (new Date(d.year)).getFullYear();
+            tooltip
+                .classed("hidden", false)
+                .html('Year: ' + year + '<br>Value: ' + d.value);
+            return tooltip.style("visibility", "visible");
         })
         .on("mousemove", function () {
-            return
-            tooltip.style("top", (event.pageY - 10) + "px").style("left", (event.pageX + 10) + "px");
+            return tooltip.style("top", (event.pageY - 10) + "px").style("left", (event.pageX + 10) + "px");
         })
         .on("mouseout", function () {
-            return
-            tooltip.style("visibility", "hidden");
+            return tooltip.style("visibility", "hidden");
         });
 
 };

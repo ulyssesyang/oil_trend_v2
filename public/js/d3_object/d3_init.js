@@ -1,62 +1,59 @@
-import {width, height} from '../data_service/data_prepare.js';
-
-// translate graph base on width and height
-function move() {
-    let t = d3.event.translate,
-        s = d3.event.scale,
-        h = height / 3;
-
-    t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
-    t[1] = Math.min(height / 2 * (s - 1) + h * s, Math.max(height / 2 * (1 - s) - h * s, t[1]));
-
-    zoom.translate(t);
-
-    g
-        .style("stroke-width", 1 / s)
-        .attr("transform", "translate(" + t + ")scale(" + s + ")");
-
-}
+import {width_map as width, height_map as height} from '../data_service/data_prepare.js';
 
 /**
- * Initialize D3 SVG MAP
- * setup zoom scale the width determines how zoomed in
+ * @param  {object} map_container - svg object appending to #mapcontainer as a root container for graphes
  */
-const zoom = d3
-    .behavior
-    .zoom()
-    .scaleExtent([1, 1])
-    .on("zoom", move);
-
-export const projection = d3
-    .geo
-    .mercator()
-    .translate([0, 80])
-    .scale(width / 1.75 / Math.PI);
-
-export const geo_path = d3
-    .geo
-    .path()
-    .projection(projection);
-
-//the number you divide by width changes how the map is translated in the window
-export const svg = d3
+export const map_container = d3
     .select("#mapcontainer")
     .append("svg")
     .attr("class", "map")
     .attr("width", width)
     .attr("height", height)
     .append("g")
-    .attr("transform", "translate(" + width / 2.3 + "," + height / 2.2 + ")")
-    .call(zoom);
+    .attr("transform", "translate(" + width / 2.3 + "," + height / 2.2 + ")");
 
-export const g = svg
+/**
+ * @param  {object} graph_countries - graph object appending to map_container for holding topo graph
+ */
+export const graph_countries = map_container
     .append("g")
     .attr("id", "countries");
 
-export const circles = svg
+/**
+ * @function projection
+ * @param  {type} export const projection {description}
+ * @return {type} {description}
+ */
+export const projection = d3
+    .geo
+    .mercator()
+    .translate([0, 80])
+    .scale(width / 1.75 / Math.PI);
+
+/**
+ * @function geo_path
+ * @param  {type} export const geo_path {description}
+ * @return {type} {description}
+ */
+export const geo_path = d3
+    .geo
+    .path()
+    .projection(projection);
+
+/**
+ * @function circles
+ * @param  {type} export const circles {description}
+ * @return {type} {description}
+ */
+export const circles = map_container
     .append("svg:g")
     .attr("id", "circles");
 
+/**
+ * @function tooltip
+ * @param  {type} export const tooltip {description}
+ * @return {type} {description}
+ */
 export const tooltip = d3
     .select("#container")
     .append("div")

@@ -1,12 +1,15 @@
-import {g, svg, geo_path, tooltip} from './d3_init.js';
-import {width, height, offsetL, offsetT, getTopo} from '../data_service/data_prepare.js';
+import {width_map as width, height_map as height, getTopo} from '../data_service/data_prepare.js';
 import {fetchDataByName} from '../data_service/data_fetch.js';
+import {graph_countries, map_container, geo_path, tooltip} from './d3_init.js';
+import renderLineChart from './d3_linechart.js';
 
 export default function renderHeatmap(countries_arr, data_selection, loadingState, callback) {
     getTopo(function (topo) {
-        let country = g
+
+        let country = graph_countries
             .selectAll(".country")
             .data(topo);
+
         country
             .enter()
             .insert("path")
@@ -46,20 +49,22 @@ export default function renderHeatmap(countries_arr, data_selection, loadingStat
         //get country info when mouse over
         country.on("mousemove", function (d, i) {
             let mouse = d3
-                .mouse(svg.node())
+                .mouse(map_container.node())
                 .map(function (d) {
                     return parseInt(d);
                 });
             if (typeof(d.properties.color) === "undefined") {
                 tooltip
                     .classed("hidden", false)
-                    .attr("style", "left:" + (mouse[0] + offsetL + 400) + "px;top:" + (mouse[1] + offsetT) + "px")
+                    .style("top", (event.pageY - 10) + "px")
+                    .style("left", (event.pageX + 10) + "px")
                     .html(d.properties.name);
 
             } else {
                 tooltip
                     .classed("hidden", false)
-                    .attr("style", "left:" + (mouse[0] + offsetL + 200) + "px;top:" + (mouse[1] + offsetT) + "px")
+                    .style("top", (event.pageY - 10) + "px")
+                    .style("left", (event.pageX + 10) + "px")
                     .html(function () {
                         var value;
                         countries_arr.forEach(function (country) {
@@ -80,7 +85,7 @@ export default function renderHeatmap(countries_arr, data_selection, loadingStat
             if (d.properties.color !== undefined && !loadingState) {
                 fetchDataByName(d.properties.name, data_selection, function (data) {
                     renderLineChart(data);
-                    loadingStatus(false);
+                    // loadingStatus(false);
                 });
             }
         });

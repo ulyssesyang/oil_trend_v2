@@ -15,20 +15,13 @@ function range(start, end) {
 export const YEARS_SHOW = range(1980, 2014);
 
 /**
- * @param width
+ * @param width_map
+ * @param height_map
  */
-export const width = document
+export const width_map = document
     .getElementById("mapcontainer")
     .offsetWidth;
-export const height = $(window).height() - $(".navbar.navbar-default").height() * 2;
-
-//offsets plus width/height of transform
-export const offsetL = document
-    .getElementById("mapcontainer")
-    .offsetLeft + (width / 2.75);
-export const offsetT = document
-    .getElementById("mapcontainer")
-    .offsetTop + (height / 2);
+export const height_map = $(window).height() - $(".navbar.navbar-default").height() * 2;
 
 /**
  * @function getTopo
@@ -61,9 +54,11 @@ export function getLatLong(callback) {
         });
 }
 
-export const margin_linechart = {
+export const margin_setting_chart = {
     top: 30,
     right: 20,
     bottom: 30,
     left: 50
 };
+export const width_chart = 500 - margin_setting_chart.left - margin_setting_chart.right;
+export const height_chart = 200 - margin_setting_chart.top - margin_setting_chart.bottom;
