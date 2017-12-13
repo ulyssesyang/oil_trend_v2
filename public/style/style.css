@@ -95,40 +95,6 @@
      text-align: center;
  }
  
- #linechart {
-     position: absolute;
-     width: 530px;
-     height: 220px;
-     background: white;
-     box-sizing: border-box;
-     border-radius: 10px;
-     border: 2px solid #ccc;
-     margin: 10px;
-     top: 50%;
- }
- 
- .axis {
-     font: 10px sans-serif;
- }
- 
- .axis path,
- .axis line {
-     fill: none;
-     stroke: #000;
-     stroke-width: 1;
-     shape-rendering: crispEdges;
- }
- 
- .x.axis path {
-     display: none;
- }
- 
- .line {
-     stroke: #006300;
-     stroke-width: 2;
-     fill: none;
- }
- 
  .node {
      -webkit-transition-property: r;
      /* Safari */
@@ -142,29 +108,9 @@
      r: 10;
  }
  
- .graph-box {
-     background: white;
-     width: 100px;
-     height: 100px;
- }
- 
- .bar.positive {
-     fill: steelblue;
- }
- 
- .bar.negative {
-     fill: #D52B1E;
- }
- 
  .axis text {
      font: 10px sans-serif;
      color: black;
- }
- 
- .graph-box {
-     background: white;
-     width: 100px;
-     height: 100px;
  }
  
  .country {

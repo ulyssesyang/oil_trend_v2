@@ -29,7 +29,7 @@ export const height_map = $(window).height() - $(".navbar.navbar-default").heigh
  */
 export function getTopo(callback) {
     d3
-        .json("data/world-topo.json", function (error, world) {
+        .json("data/world-topo.json", function(error, world) {
             if (world) {
                 let topo = topojson
                     .feature(world, world.objects.countries)
@@ -47,7 +47,7 @@ export function getTopo(callback) {
  */
 export function getLatLong(callback) {
     d3
-        .csv("data/countries.csv", function (LatLong) {
+        .csv("data/countries.csv", function(LatLong) {
             if (callback && typeof callback === "function") {
                 callback(LatLong);
             }
@@ -62,13 +62,3 @@ export const margin_setting_chart = {
 };
 export const width_chart = 500 - margin_setting_chart.left - margin_setting_chart.right;
 export const height_chart = 200 - margin_setting_chart.top - margin_setting_chart.bottom;
-
-/**
- * @function tooltip
- * @param  {type} export const tooltip {description}
- * @return {type} {description}
- */
-export const tooltip = d3
-    .select("#container")
-    .append("div")
-    .attr("class", "tooltip hidden");

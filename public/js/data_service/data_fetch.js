@@ -5,7 +5,7 @@
  */
 function ajaxGetFn(q_url, callback) {
     $
-        .ajax({url: q_url, method: "GET", dataType: "json"})
+        .ajax({ url: q_url, method: "GET", dataType: "json" })
         .done((data) => callback(data));
 }
 
@@ -17,8 +17,10 @@ function ajaxGetFn(q_url, callback) {
  */
 export function fetchDataByName(country_name, data_selection, callback) {
 
-    let q_url = `/countries/${country_name}?selection=${data_selection}`;
-    ajaxGetFn(q_url, function (data) {
+    let q_url = country_name ?
+        `/countries/${country_name}?selection=${data_selection}` :
+        `/countries?selection=${data_selection}`;
+    ajaxGetFn(q_url, function(data) {
         if (callback && typeof callback === "function") {
             callback(data);
         }
@@ -39,7 +41,7 @@ export function fetchDataByYear(year_selection, data_selection, callback) {
     }
 
     let q_url = `/${year_selection}?selection=${data_selection}`;
-    ajaxGetFn(q_url, function (data) {
+    ajaxGetFn(q_url, function(data) {
         if (callback && typeof callback === "function") {
             callback(data);
         }

@@ -1,8 +1,9 @@
 import { fetchDataByYear } from './data_service/data_fetch.js';
-import renderBubble from './d3_object/d3_bubblemap.js';
-import renderHeatmap from './d3_object/d3_heatmap.js';
-import displayTopCountries from './ui_menu/ui_topcountries.js';
-import { updateTitle } from './ui_menu/ui_menuSelection.js';
+import { updateTitle } from './ui_view/ui_view_menu_jq.js';
+import renderBubble from './ui_viewmodel/ui_vm_map_bubble_d3.js';
+import renderHeatmap from './ui_viewmodel/ui_vm_map_heat_d3.js';
+import displayTopCountries from './ui_viewmodel/ui_vm_topcountries_jq.js';
+import renderWorldLinechart from './ui_viewmodel/ui_vm_linechart_world_jq.js';
 
 let countries_arr = [],
     data_selection = "Total Petroleum Consumption",
@@ -10,6 +11,8 @@ let countries_arr = [],
     loadingState = false;
 
 updateTitle(data_selection, year_selection);
+
+renderWorldLinechart(data_selection);
 
 fetchDataByYear(year_selection, data_selection, function(data) {
     if (data) {

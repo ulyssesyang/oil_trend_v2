@@ -7,6 +7,7 @@
     <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/linechart.css">
     <link rel="stylesheet" href="style/toggle-button.css">
     <link href="/images/oil.png" rel="icon" type="image/x-icon" />
 
@@ -20,12 +21,12 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-                <a class="navbar-brand" id="world_trend" href="#">Oil Trend</a>
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" id="world_trend" href="#">World Oil Trend</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -42,14 +43,17 @@
                       </label>
                     </li>
                 </ul>
-                <form class="navbar-form navbar-left" role="search">
+                <ul class="navbar-form navbar-left" role="search">
                     <div class="form-group">
                         <label for="input_year">Input Year</label>
                         <input type="number" class="form-control" id="input_year" placeholder="Input Year" value=2000>
                     </div>
-                    <button type="submit" id="year_search_bnt" class="btn btn-default">Search</button>
-                    <button class="btn btn-default" id="history_revew_bnt">History Review</button>
-                </form>
+                    <button id="year_search_bnt" class="btn btn-default">Search</button>
+                </ul>
+                <ul class="navbar-form navbar-left">
+                    <label for="input_year">History Review</label>
+                    <button id="history_revew_bnt" class="btn btn-default">Play</button>
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="data-selection-label">Data Selection</span> <span class="caret"></span></a>

@@ -1,7 +1,8 @@
-import { margin_setting_chart as margin, width_chart as width, height_chart as height, tooltip } from '../data_service/data_prepare.js';
+import { margin_setting_chart as margin, width_chart as width, height_chart as height } from '../data_service/data_prepare.js';
 import { fetchDataByName } from '../data_service/data_fetch.js';
-import { x, y, xAxis, yAxis, valueline } from './d3_init_linechart.js';
-import ui_draggable from '../ui_menu/ui_draggable.js';
+import { x, y, xAxis, yAxis, valueline } from '../ui_view/ui_view_linechart_d3.js';
+import { tooltip } from '../ui_view/ui_view_map_d3.js';
+import ui_draggable from './ui_vm_draggable_jq.js';
 
 export default function renderLineChart(data, callback) {
 

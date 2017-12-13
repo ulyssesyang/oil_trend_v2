@@ -1,7 +1,7 @@
-import { width_map as width, height_map as height, getTopo, tooltip } from '../data_service/data_prepare.js';
+import { width_map as width, height_map as height, getTopo } from '../data_service/data_prepare.js';
 import { fetchDataByName } from '../data_service/data_fetch.js';
-import { graph_countries, map_container, geo_path } from './d3_init_map.js';
-import renderLineChart from './d3_linechart.js';
+import { graph_countries, map_container, geo_path, tooltip } from '../ui_view/ui_view_map_d3.js';
+import renderLineChart from './ui_vm_linechart_country_d3.js';
 
 export default function renderHeatmap(countries_arr, data_selection, loadingState, callback) {
     getTopo(function(topo) {

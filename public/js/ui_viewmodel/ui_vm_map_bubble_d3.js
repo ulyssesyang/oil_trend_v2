@@ -1,6 +1,6 @@
-import { projection, circles } from './d3_init_map.js';
 import { getLatLong } from '../data_service/data_prepare.js';
-import { toggleBubbleMap } from '../ui_menu/ui_menuSelection.js';
+import { projection, circles } from '../ui_view/ui_view_map_d3.js';
+import { toggleBubbleMap } from './ui_vm_menu_jq.js';
 
 // Render Bubble Map Function
 export default function renderBubble(countries_arr, callback) {
