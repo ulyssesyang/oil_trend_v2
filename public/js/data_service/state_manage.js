@@ -1,36 +1,42 @@
+import { initial_state } from './data_prepare.js';
+
 /**
  * @function reducer
  * @param  {type} state  {description}
  * @param  {type} action {description}
  * @return {type} {description}
  */
-function reducer(state, action) {
+const reducer = (state, action) => {
     if (!state) {
-        return { year: 2000, data_type: "Total Petroleum Consumption", loading_status: false };
+        return initial_state;
     }
-    switch (action.type) {
+    const { type, payload } = action;
+    switch (type) {
+        case 'UPDATE_COUNTRIES':
+            return Object.assign({}, state, { countries_arr: payload });
         case 'UPDATE_YEAR':
-            return { year: action.year, data_type: state.data_type, loading_status: state.loading_status };
+            return Object.assign({}, state, { data_year: payload });
         case 'UPDATE_DATA_TYPE':
-            return { year: state.year, data_type: action.data_type, loading_status: state.loading_status };
-        case 'UPDATE_DATA_TYPE':
-            return { year: state.year, data_type: state.data_type, loading_status: action.loading_status };
+            return Object.assign({}, state, { data_type: payload });
+        case 'UPDATE_LOADING_STATUS':
+            return Object.assign({}, state, { loading_status: payload });
         default:
             return state;
     }
-}
+};
 
 /**
  * @function createStore
  * @param  {type} reducer {description}
  * @return {type} {description}
  */
-export function createStore(reducer) {
+export const createStore = (reducer) => {
     let state = null;
     const listeners = [];
     const subscribe = (listener) => listeners.push(listener);
     const getState = () => state;
     const dispatch = (action) => {
+        console.log('dispatching', action);
         state = reducer(state, action);
         listeners.forEach((listener) => {
             listener();
@@ -38,4 +44,6 @@ export function createStore(reducer) {
     };
     dispatch({});
     return { getState, dispatch, subscribe };
-}
+};
+
+export const store = createStore(reducer);

@@ -1,12 +1,18 @@
+import { store } from './state_manage.js';
+
 /**
  * @function ajaxGetFn
  * @param  {string} q_url  - query string
  * @param  {function} callback - callback function returning err and query result
  */
 function ajaxGetFn(q_url, callback) {
+    store.dispatch({ type: 'UPDATE_LOADING_STATUS', payload: true });
     $
         .ajax({ url: q_url, method: "GET", dataType: "json" })
-        .done((data) => callback(data));
+        .done((data) => {
+            store.dispatch({ type: 'UPDATE_LOADING_STATUS', payload: false });
+            callback(data);
+        });
 }
 
 /**
