@@ -14,6 +14,7 @@
      font-size: 22px;
      font-family: 'Arvo', Helvetica, sans-serif;
  }
+ /* loading status */
  
  .loadingStatus {
      position: relative;
@@ -30,8 +31,9 @@
      height: 64px;
      width: 64px;
  }
+ /* dropdown menu of year */
  
- select {
+ .dropdown {
      position: absolute;
      top: 13%;
      left: 3%;
