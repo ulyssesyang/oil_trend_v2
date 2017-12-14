@@ -1,36 +1,9 @@
-import { initial_state } from './data_prepare.js';
-
-/**
- * @function reducer
- * @param  {type} state  {description}
- * @param  {type} action {description}
- * @return {type} {description}
- */
-const reducer = (state, action) => {
-    if (!state) {
-        return initial_state;
-    }
-    const { type, payload } = action;
-    switch (type) {
-        case 'UPDATE_COUNTRIES':
-            return Object.assign({}, state, { countries_arr: payload });
-        case 'UPDATE_YEAR':
-            return Object.assign({}, state, { data_year: payload });
-        case 'UPDATE_DATA_TYPE':
-            return Object.assign({}, state, { data_type: payload });
-        case 'UPDATE_LOADING_STATUS':
-            return Object.assign({}, state, { loading_status: payload });
-        default:
-            return state;
-    }
-};
-
 /**
  * @function createStore
  * @param  {type} reducer {description}
  * @return {type} {description}
  */
-export const createStore = (reducer) => {
+const createStore = (reducer) => {
     let state = null;
     const listeners = [];
     const subscribe = (listener) => listeners.push(listener);
@@ -46,4 +19,104 @@ export const createStore = (reducer) => {
     return { getState, dispatch, subscribe };
 };
 
-export const store = createStore(reducer);
+/**
+ * @function loadingStatusReducer
+ * @param  {type} state  {description}
+ * @param  {type} action {description}
+ * @return {type} {description}
+ */
+const loadingStatusReducer = (state, action) => {
+    const { type, payload } = action;
+    switch (type) {
+        case 'LOADING_STATUS_ON':
+            return true;
+        case 'LOADING_STATUS_OFF':
+            return false;
+    }
+};
+
+export const loadingStatusStore = createStore(loadingStatusReducer);
+
+/**
+ * @function countriesArrReducer
+ * @param  {type} state  {description}
+ * @param  {type} action {description}
+ * @return {type} {description}
+ */
+const countriesArrReducer = (state, action) => {
+    if (!state) {
+        return [];
+    }
+    const { type, payload } = action;
+    switch (type) {
+        case 'UPDATE_COUNTRIES':
+            return payload;
+        default:
+            return state;
+    }
+};
+
+export const countriesArrStore = createStore(countriesArrReducer);
+
+/**
+ * @function yearsArrReducer
+ * @param  {type} state  {description}
+ * @param  {type} action {description}
+ * @return {type} {description}
+ */
+const yearsArrReducer = (state, action) => {
+    if (!state) {
+        return [];
+    }
+    const { type, payload } = action;
+    switch (type) {
+        case 'UPDATE_YEARS':
+            return payload;
+        default:
+            return state;
+    }
+};
+
+export const yearsArrStore = createStore(yearsArrReducer);
+
+/**
+ * @function dataYearReducer
+ * @param  {type} state  {description}
+ * @param  {type} action {description}
+ * @return {type} {description}
+ */
+const dataYearReducer = (state, action) => {
+    if (!state) {
+        return 2000;
+    }
+    const { type, payload } = action;
+    switch (type) {
+        case 'UPDATE_DATA_YEAR':
+            return payload;
+        default:
+            return state;
+    }
+};
+
+export const dataYearStore = createStore(dataYearReducer);
+
+/**
+ * @function dataTypeReducer
+ * @param  {type} state  {description}
+ * @param  {type} action {description}
+ * @return {type} {description}
+ */
+const dataTypeReducer = (state, action) => {
+    if (!state) {
+        return 'Total Petroleum Consumption';
+    }
+    const { type, payload } = action;
+    switch (type) {
+        case 'UPDATE_DATA_TYPE':
+            return payload;
+        default:
+            return state;
+    }
+};
+
+export const dataTypeStore = createStore(dataTypeReducer);

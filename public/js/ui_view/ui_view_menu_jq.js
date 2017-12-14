@@ -1,18 +1,19 @@
 import { YEARS_SHOW } from '../data_service/data_prepare.js';
+import { dataYearStore, dataTypeStore } from '../data_service/state_manage.js';
+let data_year = dataYearStore.getState(),
+    data_type = dataTypeStore.getState();
 
 //Initialize Dropdown list
-for (var i = 0; i < YEARS_SHOW.length; ++i) {
-    addOption($("#dropdown"), YEARS_SHOW[i], YEARS_SHOW[i]);
-}
-
-function addOption(selectbox, text, value) {
-    selectbox.append($("<option/>", {
-        value: value,
-        text: text
+YEARS_SHOW.forEach(function(year) {
+    $("#yearlist").append($("<option/>", {
+        value: year,
+        text: year
     }));
-}
+});
 
 // topic title update
-export function updateTitle(data_selection, year_selection) {
-    $("#data_title").text(data_selection + ": " + year_selection);
+export function updateMenu() {
+    $("#data_title").text(data_type + ": " + data_year);
+    $('#yearlist option[value="' + data_year + '"]').prop('selected', true);
+    $("#input_year").val(data_year);
 }

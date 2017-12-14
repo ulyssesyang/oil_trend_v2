@@ -67,18 +67,3 @@ export const margin_setting_chart = {
 };
 export const width_chart = 500 - margin_setting_chart.left - margin_setting_chart.right;
 export const height_chart = 200 - margin_setting_chart.top - margin_setting_chart.bottom;
-
-/**
- * @param initial_state
- * @param  {type} export const initial_state               {description}
- * @param  {type} year: 2000                               {description}
- * @param  {type} data_type: "Total Petroleum Consumption" {description}
- * @param  {type} loading_status: false                    {description}
- * @return {type} {description}
- */
-export const initial_state = {
-    countries_arr: [],
-    data_year: 2000,
-    data_type: "Total Petroleum Consumption",
-    loading_status: false
-};

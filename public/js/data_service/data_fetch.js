@@ -1,4 +1,4 @@
-import { store } from './state_manage.js';
+import { loadingStatusStore, countriesArrStore, yearsArrStore } from './state_manage.js';
 
 /**
  * @function ajaxGetFn
@@ -6,11 +6,11 @@ import { store } from './state_manage.js';
  * @param  {function} callback - callback function returning err and query result
  */
 function ajaxGetFn(q_url, callback) {
-    store.dispatch({ type: 'UPDATE_LOADING_STATUS', payload: true });
+    loadingStatusStore.dispatch({ type: 'LOADING_STATUS_ON' });
     $
         .ajax({ url: q_url, method: "GET", dataType: "json" })
         .done((data) => {
-            store.dispatch({ type: 'UPDATE_LOADING_STATUS', payload: false });
+            loadingStatusStore.dispatch({ type: 'LOADING_STATUS_OFF' });
             callback(data);
         });
 }
@@ -28,6 +28,7 @@ export function fetchDataByName(country_name, data_selection, callback) {
         `/countries?selection=${data_selection}`;
     ajaxGetFn(q_url, function(data) {
         if (callback && typeof callback === "function") {
+            yearsArrStore.dispatch({ type: 'UPDATE_YEARS', payload: data });
             callback(data);
         }
     });
@@ -41,14 +42,10 @@ export function fetchDataByName(country_name, data_selection, callback) {
  */
 export function fetchDataByYear(year_selection, data_selection, callback) {
 
-    // set default year as 2000
-    if (!year_selection) {
-        year_selection = 2000;
-    }
-
     let q_url = `/${year_selection}?selection=${data_selection}`;
     ajaxGetFn(q_url, function(data) {
         if (callback && typeof callback === "function") {
+            countriesArrStore.dispatch({ type: 'UPDATE_COUNTRIES', payload: data });
             callback(data);
         }
     });
