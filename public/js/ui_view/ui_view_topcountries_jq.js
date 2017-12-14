@@ -1,7 +1,10 @@
-import { countriesArrStore } from '../data_service/state_manage.js';
-let countries_arr = countriesArrStore.getState();
+import {countriesArrStore} from '../data_service/state_manage.js';
 
 export default function displayTopCountries() {
+    let countries_arr = countriesArrStore
+        .getState()
+        .countries_arr;
+    console.log('updating top countries list:', countries_arr);
     // update top countries list
     if (countries_arr.length > 0) {
         $(".top_countries").empty();

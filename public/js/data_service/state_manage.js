@@ -16,7 +16,7 @@ const createStore = (reducer) => {
         });
     };
     dispatch({});
-    return { getState, dispatch, subscribe };
+    return {getState, dispatch, subscribe};
 };
 
 /**
@@ -26,12 +26,15 @@ const createStore = (reducer) => {
  * @return {type} {description}
  */
 const loadingStatusReducer = (state, action) => {
-    const { type, payload } = action;
+    if (!state) {
+        return {loading_status: false};
+    }
+    const {type, payload} = action;
     switch (type) {
-        case 'LOADING_STATUS_ON':
-            return true;
-        case 'LOADING_STATUS_OFF':
-            return false;
+        case 'LOADING_STATUS':
+            return Object.assign({}, state, {loading_status: payload});
+        default:
+            return state;
     }
 };
 
@@ -45,12 +48,12 @@ export const loadingStatusStore = createStore(loadingStatusReducer);
  */
 const countriesArrReducer = (state, action) => {
     if (!state) {
-        return [];
+        return {countries_arr: []};
     }
-    const { type, payload } = action;
+    const {type, payload} = action;
     switch (type) {
         case 'UPDATE_COUNTRIES':
-            return payload;
+            return Object.assign({}, state, {countries_arr: payload});
         default:
             return state;
     }
@@ -66,12 +69,12 @@ export const countriesArrStore = createStore(countriesArrReducer);
  */
 const yearsArrReducer = (state, action) => {
     if (!state) {
-        return [];
+        return {years_arr: []};
     }
-    const { type, payload } = action;
+    const {type, payload} = action;
     switch (type) {
         case 'UPDATE_YEARS':
-            return payload;
+            return Object.assign({}, state, {years_arr: payload});
         default:
             return state;
     }
@@ -87,12 +90,12 @@ export const yearsArrStore = createStore(yearsArrReducer);
  */
 const dataYearReducer = (state, action) => {
     if (!state) {
-        return 2000;
+        return {data_year: 2000};
     }
-    const { type, payload } = action;
+    const {type, payload} = action;
     switch (type) {
         case 'UPDATE_DATA_YEAR':
-            return payload;
+            return Object.assign({}, state, {data_year: payload});
         default:
             return state;
     }
@@ -108,12 +111,12 @@ export const dataYearStore = createStore(dataYearReducer);
  */
 const dataTypeReducer = (state, action) => {
     if (!state) {
-        return 'Total Petroleum Consumption';
+        return {data_type: 'Total Petroleum Consumption'};
     }
-    const { type, payload } = action;
+    const {type, payload} = action;
     switch (type) {
         case 'UPDATE_DATA_TYPE':
-            return payload;
+            return Object.assign({}, state, {data_type: payload});
         default:
             return state;
     }

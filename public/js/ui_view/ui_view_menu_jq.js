@@ -1,10 +1,8 @@
-import { YEARS_SHOW } from '../data_service/data_prepare.js';
-import { dataYearStore, dataTypeStore } from '../data_service/state_manage.js';
-let data_year = dataYearStore.getState(),
-    data_type = dataTypeStore.getState();
+import {YEARS_SHOW} from '../data_service/data_prepare.js';
+import {dataYearStore, dataTypeStore} from '../data_service/state_manage.js';
 
 //Initialize Dropdown list
-YEARS_SHOW.forEach(function(year) {
+YEARS_SHOW.forEach(function (year) {
     $("#yearlist").append($("<option/>", {
         value: year,
         text: year
@@ -13,6 +11,13 @@ YEARS_SHOW.forEach(function(year) {
 
 // topic title update
 export function updateMenu() {
+    let data_year = dataYearStore
+            .getState()
+            .data_year,
+        data_type = dataTypeStore
+            .getState()
+            .data_type;
+    console.log('update menu...', data_year, data_type);
     $("#data_title").text(data_type + ": " + data_year);
     $('#yearlist option[value="' + data_year + '"]').prop('selected', true);
     $("#input_year").val(data_year);

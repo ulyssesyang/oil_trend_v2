@@ -1,12 +1,14 @@
-import { margin_setting_chart as margin, width_chart as width, height_chart as height } from '../data_service/data_prepare.js';
-import { yearsArrStore } from '../data_service/state_manage.js';
-import { x, y, xAxis, yAxis, valueline } from '../ui_view/ui_view_linechart_d3.js';
-import { tooltip } from '../ui_view/ui_view_map_d3.js';
+import {margin_setting_chart as margin, width_chart as width, height_chart as height} from '../data_service/data_prepare.js';
+import {yearsArrStore} from '../data_service/state_manage.js';
+import {x, y, xAxis, yAxis, valueline} from '../ui_view/ui_view_linechart_d3.js';
+import {tooltip} from '../ui_view/ui_view_map_d3.js';
 import ui_draggable from './ui_vm_draggable_jq.js';
 
 export default function renderLineChart() {
 
-    let data = yearsArrStore.getState();
+    let data = yearsArrStore
+        .getState()
+        .years_arr;
 
     if (data && data.length > 0) {
         console.log('render line chart:', data);
@@ -24,12 +26,12 @@ export default function renderLineChart() {
         ui_draggable("#linechart");
 
         // Scale the range of the data
-        x.domain(d3.extent(data, function(d) {
+        x.domain(d3.extent(data, function (d) {
             return (new Date(d.year)).getFullYear();
         }));
         y.domain([
             0,
-            d3.max(data, function(d) {
+            d3.max(data, function (d) {
                 return d.value;
             })
         ]);
@@ -80,23 +82,23 @@ export default function renderLineChart() {
             .enter()
             .append("circle") // adds a circle for each data point
             .attr("r", 3)
-            .attr("cx", function(d) {
+            .attr("cx", function (d) {
                 return x((new Date(d.year)).getFullYear());
             }) // at an appropriate x coordinate
-            .attr("cy", function(d) {
+            .attr("cy", function (d) {
                 return y(d.value);
             }) // and an appropriate y coordinate
-            .on("mouseover", function(d) {
+            .on("mouseover", function (d) {
                 let year = (new Date(d.year)).getFullYear();
                 tooltip
                     .classed("hidden", false)
                     .html('Year: ' + year + '<br>Value: ' + d.value);
                 return tooltip.style("visibility", "visible");
             })
-            .on("mousemove", function() {
+            .on("mousemove", function () {
                 return tooltip.style("top", (event.pageY - 10) + "px").style("left", (event.pageX + 10) + "px");
             })
-            .on("mouseout", function() {
+            .on("mouseout", function () {
                 return tooltip.style("visibility", "hidden");
             });
     }
