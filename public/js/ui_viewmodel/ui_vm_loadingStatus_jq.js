@@ -1,8 +1,8 @@
-import {loadingStatusStore} from '../data_service/state_manage.js';
+import {infoStore} from '../data_service/state_manage.js';
 
 // Showing Loading Status
 export default function loadingStatus() {
-    let currentState = loadingStatusStore
+    let currentState = infoStore
         .getState()
         .loading_status;
     console.log('loading status:', currentState);

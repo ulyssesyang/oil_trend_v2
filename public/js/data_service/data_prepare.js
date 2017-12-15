@@ -12,7 +12,7 @@ function range(start, end) {
     }
     return temp;
 }
-export const YEARS_SHOW = range(1980, 2014);
+export const YEARS_SHOW = range(1980, 2013);
 
 /**
  * @param width_map
@@ -99,3 +99,10 @@ export const margin_setting_chart = {
 };
 export const width_chart = 500 - margin_setting_chart.left - margin_setting_chart.right;
 export const height_chart = 200 - margin_setting_chart.top - margin_setting_chart.bottom;
+
+export const init_state = {
+    loading_status: false,
+    data_year: 2000,
+    data_type: 'Total Petroleum Consumption',
+    data_name: null
+};

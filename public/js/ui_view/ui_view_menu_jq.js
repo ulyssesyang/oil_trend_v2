@@ -1,5 +1,5 @@
 import {YEARS_SHOW} from '../data_service/data_prepare.js';
-import {dataYearStore, dataTypeStore} from '../data_service/state_manage.js';
+import {infoStore} from '../data_service/state_manage.js';
 
 //Initialize Dropdown list
 YEARS_SHOW.forEach(function (year) {
@@ -11,10 +11,10 @@ YEARS_SHOW.forEach(function (year) {
 
 // topic title update
 export function updateMenu() {
-    let data_year = dataYearStore
+    let data_year = infoStore
             .getState()
             .data_year,
-        data_type = dataTypeStore
+        data_type = infoStore
             .getState()
             .data_type;
     console.log('update menu...', data_year, data_type);

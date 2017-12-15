@@ -1,3 +1,6 @@
+import {init_state} from './data_prepare.js';
+import {fetchDataByYear, fetchDataByName} from './data_fetch.js';
+
 /**
  * @function createStore
  * @param  {type} reducer {description}
@@ -25,20 +28,26 @@ const createStore = (reducer) => {
  * @param  {type} action {description}
  * @return {type} {description}
  */
-const loadingStatusReducer = (state, action) => {
+const infoReducer = (state, action) => {
     if (!state) {
-        return {loading_status: false};
+        return init_state;
     }
     const {type, payload} = action;
     switch (type) {
         case 'LOADING_STATUS':
             return Object.assign({}, state, {loading_status: payload});
+        case 'UPDATE_DATA_YEAR':
+            return Object.assign({}, state, {data_year: payload});
+        case 'UPDATE_DATA_TYPE':
+            return Object.assign({}, state, {data_type: payload});
+        case 'UPDATE_DATA_NAME':
+            return Object.assign({}, state, {data_name: payload});
         default:
             return state;
     }
 };
 
-export const loadingStatusStore = createStore(loadingStatusReducer);
+export const infoStore = createStore(infoReducer);
 
 /**
  * @function countriesArrReducer
@@ -83,43 +92,32 @@ const yearsArrReducer = (state, action) => {
 export const yearsArrStore = createStore(yearsArrReducer);
 
 /**
- * @function dataYearReducer
- * @param  {type} state  {description}
- * @param  {type} action {description}
+ * @function dispatchAction
+ * @param  {type} data_param {description}
+ * @param  {type} data_type  {description}
+ * @param  {type} action     {description}
+ * @param  {type} callback   {description}
  * @return {type} {description}
  */
-const dataYearReducer = (state, action) => {
-    if (!state) {
-        return {data_year: 2000};
+export const dispatchAction = (data_param, data_type, action, callback) => {
+    infoStore.dispatch({type: 'UPDATE_DATA_TYPE', payload: data_type});
+    switch (action) {
+        case 'byYear':
+            infoStore.dispatch({type: 'UPDATE_DATA_YEAR', payload: data_param});
+            fetchDataByYear(data_param, data_type, function (data) {
+                if (callback && typeof callback === "function") {
+                    callback(data);
+                }
+            });
+            break;
+        case 'byName':
+            infoStore.dispatch({type: 'UPDATE_DATA_NAME', payload: data_param});
+            fetchDataByName(data_param, data_type, function (data) {
+                if (callback && typeof callback === "function") {
+                    callback(data);
+                }
+            });
+            break;
     }
-    const {type, payload} = action;
-    switch (type) {
-        case 'UPDATE_DATA_YEAR':
-            return Object.assign({}, state, {data_year: payload});
-        default:
-            return state;
-    }
+    
 };
-
-export const dataYearStore = createStore(dataYearReducer);
-
-/**
- * @function dataTypeReducer
- * @param  {type} state  {description}
- * @param  {type} action {description}
- * @return {type} {description}
- */
-const dataTypeReducer = (state, action) => {
-    if (!state) {
-        return {data_type: 'Total Petroleum Consumption'};
-    }
-    const {type, payload} = action;
-    switch (type) {
-        case 'UPDATE_DATA_TYPE':
-            return Object.assign({}, state, {data_type: payload});
-        default:
-            return state;
-    }
-};
-
-export const dataTypeStore = createStore(dataTypeReducer);

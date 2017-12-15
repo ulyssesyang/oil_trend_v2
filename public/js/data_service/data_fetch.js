@@ -1,4 +1,4 @@
-import {loadingStatusStore, countriesArrStore, yearsArrStore} from './state_manage.js';
+import {infoStore, countriesArrStore, yearsArrStore} from './state_manage.js';
 
 /**
  * @function ajaxGetFn
@@ -6,11 +6,11 @@ import {loadingStatusStore, countriesArrStore, yearsArrStore} from './state_mana
  * @param  {function} callback - callback function returning err and query result
  */
 function ajaxGetFn(q_url, callback) {
-    loadingStatusStore.dispatch({type: 'LOADING_STATUS', payload: true});
+    infoStore.dispatch({type: 'LOADING_STATUS', payload: true});
     $
         .ajax({url: q_url, method: "GET", dataType: "json"})
         .done((data) => {
-            // loadingStatusStore.dispatch({type: 'LOADING_STATUS', payload: false});
+            // infoStore.dispatch({type: 'LOADING_STATUS', payload: false});
             callback(data);
         });
 }

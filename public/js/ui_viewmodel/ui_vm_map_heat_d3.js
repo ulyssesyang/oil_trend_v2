@@ -1,6 +1,6 @@
 import {width_map as width, height_map as height, getTopo} from '../data_service/data_prepare.js';
 import {fetchDataByName} from '../data_service/data_fetch.js';
-import {loadingStatusStore, countriesArrStore, dataTypeStore, yearsArrStore} from '../data_service/state_manage.js';
+import {infoStore, countriesArrStore, yearsArrStore} from '../data_service/state_manage.js';
 import {graph_countries, map_container, geo_path, tooltip} from '../ui_view/ui_view_map_d3.js';
 import renderLineChart from './ui_vm_linechart_country_d3.js';
 
@@ -9,7 +9,7 @@ export default function renderHeatmap() {
     let countries_arr = countriesArrStore
             .getState()
             .countries_arr,
-        data_type = dataTypeStore
+        data_type = infoStore
             .getState()
             .data_type;
 
@@ -55,7 +55,7 @@ export default function renderHeatmap() {
                     return d.properties.color;
                 });
 
-            loadingStatusStore.dispatch({type: 'LOADING_STATUS', payload: false});
+            infoStore.dispatch({type: 'LOADING_STATUS', payload: false});
 
             //get country info when mouse over
             heatmap.on("mousemove", function (d, i) {

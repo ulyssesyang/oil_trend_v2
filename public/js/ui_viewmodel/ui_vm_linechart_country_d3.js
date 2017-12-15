@@ -1,5 +1,5 @@
 import {margin_setting_chart as margin, width_chart as width, height_chart as height} from '../data_service/data_prepare.js';
-import {loadingStatusStore, yearsArrStore} from '../data_service/state_manage.js';
+import {infoStore, yearsArrStore} from '../data_service/state_manage.js';
 import {x, y, xAxis, yAxis, valueline} from '../ui_view/ui_view_linechart_d3.js';
 import {tooltip} from '../ui_view/ui_view_map_d3.js';
 import ui_draggable from './ui_vm_draggable_jq.js';
@@ -102,7 +102,7 @@ export default function renderLineChart() {
                 return tooltip.style("visibility", "hidden");
             });
 
-            loadingStatusStore.dispatch({type: 'LOADING_STATUS', payload: false});
+            infoStore.dispatch({type: 'LOADING_STATUS', payload: false});
     }
 
 }

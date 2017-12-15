@@ -1,5 +1,5 @@
 import {getLatLong} from '../data_service/data_prepare.js';
-import {loadingStatusStore, countriesArrStore} from '../data_service/state_manage.js';
+import {countriesArrStore} from '../data_service/state_manage.js';
 import {projection, circles} from '../ui_view/ui_view_map_d3.js';
 import {toggleBubbleMap} from './ui_vm_menu_jq.js';
 
@@ -49,8 +49,6 @@ export default function renderBubble() {
                         return Math.abs(d.value * scalefactor) * scalefactor;
                     }
                 });
-
-            // loadingStatusStore.dispatch({type: 'LOADING_STATUS', payload: false});
 
             toggleBubbleMap(bubble);
         });
