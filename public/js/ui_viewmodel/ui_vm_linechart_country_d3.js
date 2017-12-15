@@ -88,11 +88,7 @@ export default function renderLineChart() {
             }) // at an appropriate x coordinate
             .attr("cy", function (d) {
                 return y(d.value);
-            }); // and an appropriate y coordinate
-
-        loadingStatusStore.dispatch({type: 'LOADING_STATUS', payload: false});
-
-        linechart.on("mouseover", function (d) {
+            }).on("mouseover", function (d) {
             let year = (new Date(d.year)).getFullYear();
             tooltip
                 .classed("hidden", false)
@@ -105,6 +101,8 @@ export default function renderLineChart() {
             .on("mouseout", function () {
                 return tooltip.style("visibility", "hidden");
             });
+
+            loadingStatusStore.dispatch({type: 'LOADING_STATUS', payload: false});
     }
 
 }
