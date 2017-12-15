@@ -46,7 +46,7 @@ export default function renderBubble() {
                 .attr("r", function (d, i) {
                     if (d.value) {
                         const scalefactor = 1 / 10;
-                        return (+ d.value * scalefactor) * scalefactor;
+                        return Math.abs(d.value * scalefactor) * scalefactor;
                     }
                 });
 
