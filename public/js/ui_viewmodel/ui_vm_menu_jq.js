@@ -79,7 +79,8 @@ $("#history_revew_bnt")
                     dataYearStore.dispatch({type: 'UPDATE_DATA_YEAR', payload: YEARS_SHOW[i]});
                     fetchDataByYear(YEARS_SHOW[i], data_type, function (data) {
                         console.log('rendering data of year:', YEARS_SHOW[i]);
-                        $("button").attr("disabled", i >= YEARS_SHOW.length);
+                        let flag = i>=(YEARS_SHOW.length)-1;
+                        $("button").attr("disabled", !flag);
                         resolve();
                     });
                 }
