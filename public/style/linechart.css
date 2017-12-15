@@ -32,3 +32,8 @@
     stroke-width: 2;
     fill: none;
 }
+
+.axis text {
+    font: 10px sans-serif;
+    color: black;
+}

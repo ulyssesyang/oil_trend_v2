@@ -21,4 +21,5 @@ export function updateMenu() {
     $("#data_title").text(data_type + ": " + data_year);
     $('#yearlist option[value="' + data_year + '"]').prop('selected', true);
     $("#input_year").val(data_year);
+    $('.data-selection-label').text(data_type);
 }

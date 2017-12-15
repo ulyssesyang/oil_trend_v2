@@ -10,7 +10,7 @@ function ajaxGetFn(q_url, callback) {
     $
         .ajax({url: q_url, method: "GET", dataType: "json"})
         .done((data) => {
-            loadingStatusStore.dispatch({type: 'LOADING_STATUS', payload: false});
+            // loadingStatusStore.dispatch({type: 'LOADING_STATUS', payload: false});
             callback(data);
         });
 }

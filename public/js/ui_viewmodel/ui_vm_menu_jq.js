@@ -1,5 +1,8 @@
-import {dataTypeStore, dataYearStore} from '../data_service/state_manage.js';
-import {fetchDataByYear} from '../data_service/data_fetch.js';
+import {YEARS_SHOW} from '../data_service/data_prepare.js';
+import {dataTypeStore, dataYearStore, loadingStatusStore} from '../data_service/state_manage.js';
+import {fetchDataByYear, fetchDataByName} from '../data_service/data_fetch.js';
+import renderLineChart from './ui_vm_linechart_country_d3.js';
+
 let data_year = dataYearStore
         .getState()
         .data_year,
@@ -40,6 +43,15 @@ $("#input_year").change(function () {
     dispatchYear(data_year, data_type, 'year');
 });
 
+// render world trend chart
+$("#world_trend").on("click", function () {
+    fetchDataByName(null, data_type, function (data) {
+        if (data) {
+            renderLineChart();
+        }
+    });
+});
+
 // Show or Hide Bubble Map
 export function toggleBubbleMap(circles) {
     $(".bubble_map")
@@ -53,3 +65,24 @@ export function toggleBubbleMap(circles) {
             }
         });
 }
+
+/**
+ * @param  {type} "#history_revew_bnt" {description}
+ * @return {type} {description}
+ */
+$("#history_revew_bnt")
+    .on("click", function () {
+        $("button").attr("disabled", true);
+        (function loop(i) {
+            const promise = new Promise((resolve, reject) => {
+                if (YEARS_SHOW[i]) {
+                    dataYearStore.dispatch({type: 'UPDATE_DATA_YEAR', payload: YEARS_SHOW[i]});
+                    fetchDataByYear(YEARS_SHOW[i], data_type, function (data) {
+                        console.log('rendering data of year:', YEARS_SHOW[i]);
+                        $("button").attr("disabled", i >= YEARS_SHOW.length);
+                        resolve();
+                    });
+                }
+            }).then(() => i >= YEARS_SHOW.length || loop(i + 1));
+        })(0);
+    });

@@ -1,5 +1,5 @@
 import {margin_setting_chart as margin, width_chart as width, height_chart as height} from '../data_service/data_prepare.js';
-import {yearsArrStore} from '../data_service/state_manage.js';
+import {loadingStatusStore, yearsArrStore} from '../data_service/state_manage.js';
 import {x, y, xAxis, yAxis, valueline} from '../ui_view/ui_view_linechart_d3.js';
 import {tooltip} from '../ui_view/ui_view_map_d3.js';
 import ui_draggable from './ui_vm_draggable_jq.js';
@@ -54,6 +54,7 @@ export default function renderLineChart() {
             .attr("y", 30) //this is the Year x axis label and this moves it up and down
             .attr("dx", "20em") //year axis label that moves it left to right
             .text("Year");
+
         linechart
             .append("text")
             .attr("x", (width / 2))
@@ -87,14 +88,17 @@ export default function renderLineChart() {
             }) // at an appropriate x coordinate
             .attr("cy", function (d) {
                 return y(d.value);
-            }) // and an appropriate y coordinate
-            .on("mouseover", function (d) {
-                let year = (new Date(d.year)).getFullYear();
-                tooltip
-                    .classed("hidden", false)
-                    .html('Year: ' + year + '<br>Value: ' + d.value);
-                return tooltip.style("visibility", "visible");
-            })
+            }); // and an appropriate y coordinate
+
+        loadingStatusStore.dispatch({type: 'LOADING_STATUS', payload: false});
+
+        linechart.on("mouseover", function (d) {
+            let year = (new Date(d.year)).getFullYear();
+            tooltip
+                .classed("hidden", false)
+                .html('Year: ' + year + '<br>Value: ' + d.value);
+            return tooltip.style("visibility", "visible");
+        })
             .on("mousemove", function () {
                 return tooltip.style("top", (event.pageY - 10) + "px").style("left", (event.pageX + 10) + "px");
             })
