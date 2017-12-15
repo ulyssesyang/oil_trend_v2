@@ -24,18 +24,49 @@ export const width_map = document
 export const height_map = $(window).height() - $(".navbar.navbar-default").height() * 2;
 
 /**
+ * @function mergeCountriesData
+ * @param  {type} targetDataArr {description}
+ * @param  {type} countries_arr {description}
+ * @return {type} {description}
+ */
+function mergeCountriesData(targetDataArr, countries_arr) {
+    let tempArr = [];
+    for (let i = 0; i < targetDataArr.length; i++) {
+        let targetData = targetDataArr[i];
+        for (let j = 0; j < countries_arr.length; j++) {
+            const country = countries_arr[j];
+            let tempName = null;
+            if (targetData.name) {
+                tempName = targetData.name;
+            } else if (targetData.properties && targetData.properties.name) {
+                tempName = targetData.properties.name;
+            }
+            if (tempName === country.country_name[0]) {
+                targetData.data_type = country.name;
+                targetData.unit = country.unit;
+                targetData.value = country.value;
+                targetData.year = country.year;
+            }
+        }
+        tempArr.push(targetData);
+    }
+    return tempArr;
+}
+
+/**
  * @function getTopo
  * @param  {function} callback - return topo data
  */
-export function getTopo(callback) {
+export function getTopo(countries_arr, callback) {
     d3
-        .json("data/world-topo.json", function(error, world) {
+        .json("data/world-topo.json", function (error, world) {
             if (world) {
                 let topo = topojson
                     .feature(world, world.objects.countries)
                     .features;
+                let mergeDataArr = mergeCountriesData(topo, countries_arr);
                 if (callback && typeof callback === "function") {
-                    callback(topo);
+                    callback(mergeDataArr);
                 }
             }
         });
@@ -45,11 +76,12 @@ export function getTopo(callback) {
  * @function getCountriesLatLongfromCSV
  * @param  {type} callback {description}
  */
-export function getLatLong(callback) {
+export function getLatLong(countries_arr, callback) {
     d3
-        .csv("data/countries.csv", function(LatLong) {
+        .csv("data/countries.csv", function (LatLong) {
+            let mergeDataArr = mergeCountriesData(LatLong, countries_arr);
             if (callback && typeof callback === "function") {
-                callback(LatLong);
+                callback(mergeDataArr);
             }
         });
 }
