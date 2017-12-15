@@ -34,7 +34,13 @@ export default function renderHeatmap() {
                 })
                 .style("fill", function (d, i) {
                     return d.properties.color;
-                })
+                });
+
+            heatmap
+                .exit()
+                .remove();
+
+            heatmap
                 .transition()
                 .duration(1000)
                 .style("fill", function (d, i) {
@@ -53,23 +59,14 @@ export default function renderHeatmap() {
 
             //get country info when mouse over
             heatmap.on("mousemove", function (d, i) {
-                let mouse = d3
-                    .mouse(map_container.node())
-                    .map(function (d) {
-                        return parseInt(d);
-                    });
+                tooltip
+                    .classed("hidden", false)
+                    .style("top", (event.pageY - 10) + "px")
+                    .style("left", (event.pageX + 10) + "px");
                 if (!d.value) {
-                    tooltip
-                        .classed("hidden", false)
-                        .style("top", (event.pageY - 10) + "px")
-                        .style("left", (event.pageX + 10) + "px")
-                        .html(d.properties.name);
-
+                    tooltip.html(d.properties.name);
                 } else {
                     tooltip
-                        .classed("hidden", false)
-                        .style("top", (event.pageY - 10) + "px")
-                        .style("left", (event.pageX + 10) + "px")
                         .html(function () {
                             return "<u>" + d.properties.name + "</u><br><strong> Value:</strong> " + d.value;
                         });
