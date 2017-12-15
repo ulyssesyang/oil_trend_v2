@@ -18,11 +18,11 @@ export default function renderHeatmap() {
 
             console.log('render Heatmap:', countries_arr);
 
-            let country = graph_countries
+            let heatmap = graph_countries
                 .selectAll(".country")
                 .data(topo);
 
-            country
+            heatmap
                 .enter()
                 .insert("path")
                 .attr("class", "country")
@@ -30,42 +30,39 @@ export default function renderHeatmap() {
                 .attr("id", function (d, i) {
                     return d.id;
                 })
-                .style("fill", function (d, i) {
-                    return d.properties.color;
-                })
                 .attr("title", function (d, i) {
                     return d.properties.name;
                 })
-                .transition()
-                .duration(100)
                 .style("fill", function (d, i) {
-                    var col;
-                    var scaled = 0;
-                    countries_arr.forEach(function (country) {
-                        // match topo country name with data country name
+                    return d.properties.color;
+                })
+                .transition()
+                .duration(1000)
+                .style("fill", function (d, i) {
+                    for (let i = 0; i < countries_arr.length; i++) {
+                        const country = countries_arr[i];
                         if (country.country_name[0] === d.properties.name) {
                             // scale topo country color based on data value
-                            scaled = d3
+                            var scaled = d3
                                 .scale
                                 .linear()
                                 .domain([0, 1000])
                                 .range([0, 4000]);
-                            col = "hsl(45," + scaled(country.value / 100) + "%,50%)";
+                            return "hsl(45," + scaled(country.value / 100) + "%,50%)";
                         }
-                    });
-                    d.properties.color = col;
-                    // console.log('color_scale done: '+col);
-                    return d.properties.color;
+                    }
                 });
 
+            heatmap.exit();
+
             //get country info when mouse over
-            country.on("mousemove", function (d, i) {
+            heatmap.on("mousemove", function (d, i) {
                 let mouse = d3
                     .mouse(map_container.node())
                     .map(function (d) {
                         return parseInt(d);
                     });
-                if (typeof(d.properties.color) === "undefined") {
+                if (d.properties.color) {
                     tooltip
                         .classed("hidden", false)
                         .style("top", (event.pageY - 10) + "px")
@@ -78,13 +75,12 @@ export default function renderHeatmap() {
                         .style("top", (event.pageY - 10) + "px")
                         .style("left", (event.pageX + 10) + "px")
                         .html(function () {
-                            var value;
-                            countries_arr.forEach(function (country) {
+                            for (let i = 0; i < countries_arr.length; i++) {
+                                const country = countries_arr[i];
                                 if (country.country_name[0] === d.properties.name) {
-                                    value = country.value;
+                                    return "<u>" + d.properties.name + "</u><br><strong> Value:</strong> " + country.value;
                                 }
-                            });
-                            return "<u>" + d.properties.name + "</u><br><strong> Value:</strong> " + value;
+                            }
                         });
                     }
                 })
@@ -93,7 +89,7 @@ export default function renderHeatmap() {
                 });
 
             //call country history line graph function when click
-            country.on("click", function (d, i) {
+            heatmap.on("click", function (d, i) {
                 if (d.properties.color !== undefined) {
                     fetchDataByName(d.properties.name, data_type, function (data) {
                         yearsArrStore.dispatch({type: 'UPDATE_YEARS', payload: data});

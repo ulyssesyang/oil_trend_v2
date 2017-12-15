@@ -14,13 +14,17 @@ export default function renderBubble() {
             console.log('render Bubble:', countries_arr);
 
             let scalefactor = 1 / 10;
-            circles
+            let bubble = circles
                 .selectAll("circle")
-                .data(LatLong)
+                .data(LatLong, function (d) {
+                    return d.name;
+                });
+
+            bubble
                 .enter()
                 .append("svg:circle")
-                .transition(100)
-                .duration(100)
+                .transition(1000)
+                .duration(1000)
                 .ease("linear")
                 .attr("cx", function (d, i) {
                     return projection([ + d.longitude, + d.latitude
@@ -36,7 +40,7 @@ export default function renderBubble() {
                 .attr("class", "node")
                 .attr("fill", "#3B5671")
                 .attr("opacity", 0.5)
-                .attr("r", function (d) {
+                .attr("r", function (d, i) {
                     var radius = 0;
                     countries_arr.forEach(function (country) {
                         if (country.country_name[0] === d.name && country.value > 0) {
@@ -46,7 +50,9 @@ export default function renderBubble() {
                     return (+ radius) * scalefactor;
                 });
 
-            toggleBubbleMap(circles);
+            bubble.exit();
+
+            toggleBubbleMap(bubble);
         });
     }
 

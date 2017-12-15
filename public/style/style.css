@@ -101,11 +101,9 @@
  
  .node {
      -webkit-transition-property: r;
-     /* Safari */
-     -webkit-transition-duration: 0.5s;
-     /* Safari */
+     -webkit-transition-duration: 1s;
      transition-property: r;
-     transition-duration: 0.5s;
+     transition-duration: 1s;
  }
  
  .node:hover {
@@ -115,13 +113,6 @@
  .axis text {
      font: 10px sans-serif;
      color: black;
- }
- 
- .country {
-     /*fill: none;*/
-     fill: #CCCCCC;
-     stroke: black;
-     stroke-width: .7px;
  }
  
  .main-text {
